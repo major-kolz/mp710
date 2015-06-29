@@ -13,7 +13,7 @@ set(RELEASE_FLAGS "-O2 -pipe -march=native -std=c99 -pthread")
 set(EXECUTABLE_OUTPUT_PATH ../bin)
 
 # Определяем параметры сборки
-set(prog_name mp710_from_terminal)
+set(prog_name mp710_t)
 set(CMAKE_C_FLAGS ${RELEASE_FLAGS})
 set(CMAKE_C_FLAGS_DEBUG ${DEBUG_FLAGS})
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
