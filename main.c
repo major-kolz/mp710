@@ -1,3 +1,16 @@
+/*  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "hidapi.h"
@@ -13,7 +26,7 @@ void govern(hid_device* handle);
 int inputNum();
 void all_off(hid_device* handle);
 
-int main()
+int main(int argc, char * argv[])
 {
     /*------------------*/
     const wchar_t *serial_number = NULL;
@@ -28,6 +41,7 @@ int main()
         hid_exit();
  		return 1;
 	}
+   
 
     buf[0]=0x1d;
     hid_send_feature_report(handle, buf, 8);
@@ -35,9 +49,30 @@ int main()
     if ((buf[0]!=0x1d)&&(buf[1]!=0x2d))
     {
         printf("Устройство реагирует некорректно! Попробуйте переподключить его");
+        hid_close(handle);
+        hid_exit();
+ 		return 1;
     }
 
-    govern(handle);
+    if (argc == 1)
+        govern(handle); // ручной режим управления
+    else if (argc == 3) // вызов с параметрами
+    {   
+        int state = argv[1][1] == 'n' ? 0x80 : 0x00;
+        int port = atoi(argv[2]) - 1;
+        if ( port < 0 ||  port > 16) {
+            printf("Порт должен быть целым числом в диапазоне от 1 до 16 включительно\n");
+            hid_close(handle);
+            hid_exit();
+            return 1;   
+        }
+        buf[ port ] = state;
+        send(handle); 
+    } else // --help, -h и ошибки
+        printf("Приложение для работы с цифровым usb-коммутатором MP71 производства 'Masterkit'\n"
+                "  Для того, чтобы включить порт №n [1-16] выполните:  'mp710_t on n'\n"
+                "  Для того, чтобы выключить порт №n [1-16] выполните:  'mp710_t off n'\n"
+                "  Запуск приложения без параметров предоставит последовательный доступ к портам\n\n"); 
 
     hid_close(handle);
 	hid_exit();
