@@ -1,4 +1,1 @@
 *.swp
-bin/
-build/*
-!build/CMakeLists.txt

@@ -9,9 +9,14 @@
 
  Copyright 2009, All Rights Reserved.
 
- This library licensed for 'mp710_console' project under the 
- terms of the  GNU General Public License v3.
- Original project:
+ At the discretion of the user of this library,
+ this software may be licensed under the terms of the
+ GNU General Public License v3, a BSD-Style license, or the
+ original HIDAPI license as outlined in the LICENSE.txt,
+ LICENSE-gpl3.txt, LICENSE-bsd.txt, and LICENSE-orig.txt
+ files located at the root of the source distribution.
+ These files may also be found in the public source
+ code repository located at:
         http://github.com/signal11/hidapi .
 ********************************************************/
 
